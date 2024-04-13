@@ -129,6 +129,13 @@ export default async function FXServerCommands(ctx: AuthedCtx) {
     //==============================================
     } else if (action == 'refreshcache') {
         if (!ensurePermission(ctx, 'control.server')) return false;
+        if (!fxRunner.config.cfgPath.includes('server_prod.cfg')) {
+            return ctx.send<ApiToastResp>({
+                type: 'error',
+                msg: 'This action is only available for Production server.',
+            });
+        }
+
         ctx.admin.logCommand("refreshCache");
         const pwsh = exec(`pwsh.exe -Command \"Set-Location '${fxRunner.config.serverDataPath}'; & {& '${fxRunner.config.serverDataPath}\\refresh_cache.ps1'}\"`)
         pwsh.stdout?.on("data", function(data){
