@@ -120,6 +120,7 @@ function processResources(resList) {
             divName: slug(resource.name),
             status: resource.status,
             statusClass: (resource.status === 'started') ? 'success' : 'danger',
+            has_ui: resource.has_ui,
             // path: slash(path.normalize(resource.path)),
             version: (resource.version) ? `(${resource.version.trim()})` : '',
             author: (resource.author) ? `${resource.author.trim()}` : '',

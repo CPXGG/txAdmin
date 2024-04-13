@@ -46,7 +46,7 @@
     }
 
     //Injecting the console content here as base64
-    const logData = b64_to_utf8(`<%= (Buffer.from(consoleLog).toString('base64')) %>`);
+    //const logData = b64_to_utf8(`<%= (Buffer.from(consoleLog).toString('base64')) %>`);
 
     //ANSI-UP theme
     const baseTheme = {
@@ -94,7 +94,7 @@
     const terminalElement = document.getElementById('terminal');
     term.open(terminalElement);
     fitAddon.fit();
-    term.write(logData);
+    //term.write(logData);
 
     term.attachCustomKeyEventHandler((event) => {
         if(event.code === 'F5'){
@@ -127,4 +127,17 @@
             $("#"+target).scrollTop($("#"+target)[0].scrollHeight);
         }, 250);
     }
+
+    (() => {
+        const consoleElement = document.getElementById("terminal");
+        const scrollBottom = () => consoleElement.scrollTop = consoleElement.scrollHeight;
+        const pageSocket = getSocket('systemconsole');
+        pageSocket.on('error', (error) => console.log('System Console Socket.IO', error));
+        pageSocket.on('connect', () => console.log("System Console Socket.IO Connected."));
+        pageSocket.on('disconnect', (message) => console.log("System Console Socket.IO Disonnected:", message));
+        pageSocket.on('systemConsoleData', function (msg) {
+            term.write(b64_to_utf8(msg))
+            setTimeout(scrollBottom, 100);
+        });
+    })();
 </script>

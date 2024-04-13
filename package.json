@@ -4,7 +4,7 @@
   "description": "The official FiveM/RedM server management platform used by tens of thousands of servers.",
   "module": "./core/index.js",
   "type": "module",
-  "workspaces": [
+    "workspaces": [
     "core",
     "nui",
     "panel",
@@ -20,7 +20,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tabarra/txAdmin.git"
+    "url": "git+https://github.com/CPXGG/txAdmin.git"
   },
   "author": "André Tabarra",
   "license": "MIT",
