@@ -2,7 +2,7 @@ const modulename = 'Logger:FXServer';
 import bytes from 'bytes';
 import chalk from 'chalk';
 import { LoggerBase, separator } from '../loggerUtils.js';
-import consoleFactory from '@extras/console';
+import consoleFactory, { getTimestamp } from '@extras/console';
 const console = consoleFactory(modulename);
 
 
@@ -146,7 +146,7 @@ export default class FXServerLogger extends LoggerBase {
      * @param {String} data
      */
     appendRecent(data) {
-        this.recentBuffer += data;
+        this.recentBuffer += `${!data.endsWith('\n') || data.replaceAll(' ', '').replace(regexColors, '').startsWith('[script:') ? `[${getTimestamp()}] ` : ''}${data}`;
         if (this.recentBuffer.length > this.recentBufferMaxSize) {
             this.recentBuffer = this.recentBuffer.slice(this.recentBufferTrimSliceSize - this.recentBufferMaxSize);
             this.recentBuffer = this.recentBuffer.substring(this.recentBuffer.indexOf('\n'));

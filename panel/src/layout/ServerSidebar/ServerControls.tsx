@@ -3,7 +3,7 @@ import { processInstantiatedAtom, serverConfigPendingStepAtom } from '@/hooks/st
 import { cn } from '@/lib/utils';
 import { cva } from 'class-variance-authority';
 import { useAtomValue } from 'jotai';
-import { MegaphoneIcon, PowerIcon, PowerOffIcon, RotateCcwIcon } from 'lucide-react';
+import { MegaphoneIcon, PowerIcon, PowerOffIcon, RotateCcwIcon, GitForkIcon, DatabaseZapIcon } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useOpenConfirmDialog, useOpenPromptDialog } from '@/hooks/dialogs';
 import { useBackendApi } from '@/hooks/fetch';
@@ -73,6 +73,34 @@ export default function ServerControls() {
             });
         }
     }
+
+    const handleComplexoCommand = (action: 'gitsync' | 'refreshcache') => {
+        const messageMap = {
+            gitsync: 'Synchronizing Github',
+            refreshcache: 'Refreshing Cache',
+        }
+        const toastLoadingMessage = `${messageMap[action]}...`;
+        const callApi = () => {
+            closeAllSheets();
+            fxsCommandsApi({
+                data: { action: action, parameter: '' },
+                toastLoadingMessage,
+            });
+        }
+        openConfirmDialog({
+            title: messageMap[action],
+            message: `Are you sure you want to ${action} the server?`,
+            onConfirm: callApi,
+        });
+    };
+    const handleGitSync = () => {
+        handleComplexoCommand('gitsync');
+    }
+    const handleRefreshCache = () => {
+        if (processInstantiated) return;
+        handleComplexoCommand('refreshcache');
+    }
+    
     const handleStartStop = () => {
         handleServerControl(processInstantiated ? 'stop' : 'start');
     }
@@ -127,103 +155,147 @@ export default function ServerControls() {
         )
     }
     return (
-        <div className="flex flex-row justify-between gap-2">
-            <Tooltip>
-                <TooltipTrigger asChild>
-                    {processInstantiated
-                        ? <button
-                            onClick={handleStartStop}
-                            className={controlButtonsVariants({ type: 'destructive' })}
-                            disabled={!hasControlPerms}
-                        >
-                            <PowerOffIcon className='h-5' />
-                        </button>
-                        : <div className="relative flex flex-grow inset-0">
-                            <div className='absolute inset-0 bg-success animate-pulse rounded blur-sm'></div>
-                            <button
+        <>
+            <div className="flex flex-row justify-between gap-2">
+                <Tooltip>
+                    <TooltipTrigger asChild>
+                        {processInstantiated
+                            ? <button
                                 onClick={handleStartStop}
-                                className={cn(controlButtonsVariants({ type: 'success' }), 'relative')}
+                                className={controlButtonsVariants({ type: 'destructive' })}
                                 disabled={!hasControlPerms}
                             >
-                                <PowerIcon className='h-5' />
+                                <PowerOffIcon className='h-5' />
                             </button>
-                        </div>
-                    }
-                </TooltipTrigger>
-                <TooltipContent className={cn(!hasControlPerms && 'text-destructive-inline text-center')}>
-                    {hasControlPerms ? (
-                        <p>{processInstantiated ? 'Stop the server' : 'Start the server! 🚀'}</p>
-                    ) : (
-                        <p>
-                            You do not have permission <br />
-                            to control the server.
-                        </p>
-                    )}
-                </TooltipContent>
-            </Tooltip>
-            <Tooltip>
-                <TooltipTrigger asChild>
-                    <button
-                        onClick={handleRestart}
-                        className={cn(controlButtonsVariants({ type: 'warning' }))}
-                        disabled={!hasControlPerms || !processInstantiated}
-                    >
-                        <RotateCcwIcon className='h-5' />
-                    </button>
-                </TooltipTrigger>
-                <TooltipContent className={cn(!hasControlPerms && 'text-destructive-inline text-center')}>
-                    {hasControlPerms ? (
-                        <p>Restart Server</p>
-                    ) : (
-                        <p>
-                            You do not have permission <br />
-                            to control the server.
-                        </p>
-                    )}
-                </TooltipContent>
-            </Tooltip>
-            <Tooltip>
-                <TooltipTrigger asChild>
-                    <button
-                        onClick={handleKickAll}
-                        className={controlButtonsVariants()}
-                        disabled={!hasControlPerms || !processInstantiated}
-                    >
-                        <KickAllIcon style={{ height: '1.25rem', width: '1.5rem', fill: 'currentcolor' }} />
-                    </button>
-                </TooltipTrigger>
-                <TooltipContent className={cn(!hasControlPerms && 'text-destructive-inline text-center')}>
-                    {hasControlPerms ? (
-                        <p>Kick All Players</p>
-                    ) : (
-                        <p>
-                            You do not have permission <br />
-                            to control the server.
-                        </p>
-                    )}
-                </TooltipContent>
-            </Tooltip>
-            <Tooltip>
-                <TooltipTrigger asChild>
-                    <button
-                        onClick={handleAnnounce}
-                        className={controlButtonsVariants()}
-                        disabled={!hasAnnouncementPerm || !processInstantiated}
-                    >
-                        <MegaphoneIcon className='h-5' />
-                    </button>
-                </TooltipTrigger>
-                <TooltipContent className={cn(!hasAnnouncementPerm && 'text-destructive-inline text-center')}>
-                    {hasAnnouncementPerm ? (
-                        <p>Send Announcement</p>
-                    ) : (
-                        <p>
-                            You do not have permission <br />
-                            to send an Announcement.
-                        </p>
-                    )}
-                </TooltipContent>
-            </Tooltip>
-        </div>
+                            : <div className="relative flex flex-grow inset-0">
+                                <div className='absolute inset-0 bg-success animate-pulse rounded blur-sm'></div>
+                                <button
+                                    onClick={handleStartStop}
+                                    className={cn(controlButtonsVariants({ type: 'success' }), 'relative')}
+                                    disabled={!hasControlPerms}
+                                >
+                                    <PowerIcon className='h-5' />
+                                </button>
+                            </div>
+                        }
+                    </TooltipTrigger>
+                    <TooltipContent className={cn(!hasControlPerms && 'text-destructive-inline text-center')}>
+                        {hasControlPerms ? (
+                            <p>{processInstantiated ? 'Stop the server' : 'Start the server! 🚀'}</p>
+                        ) : (
+                            <p>
+                                You do not have permission <br />
+                                to control the server.
+                            </p>
+                        )}
+                    </TooltipContent>
+                </Tooltip>
+                <Tooltip>
+                    <TooltipTrigger asChild>
+                        <button
+                            onClick={handleRestart}
+                            className={cn(controlButtonsVariants({ type: 'warning' }))}
+                            disabled={!hasControlPerms || !processInstantiated}
+                        >
+                            <RotateCcwIcon className='h-5' />
+                        </button>
+                    </TooltipTrigger>
+                    <TooltipContent className={cn(!hasControlPerms && 'text-destructive-inline text-center')}>
+                        {hasControlPerms ? (
+                            <p>Restart Server</p>
+                        ) : (
+                            <p>
+                                You do not have permission <br />
+                                to control the server.
+                            </p>
+                        )}
+                    </TooltipContent>
+                </Tooltip>
+                <Tooltip>
+                    <TooltipTrigger asChild>
+                        <button
+                            onClick={handleKickAll}
+                            className={controlButtonsVariants()}
+                            disabled={!hasControlPerms || !processInstantiated}
+                        >
+                            <KickAllIcon style={{ height: '1.25rem', width: '1.5rem', fill: 'currentcolor' }} />
+                        </button>
+                    </TooltipTrigger>
+                    <TooltipContent className={cn(!hasControlPerms && 'text-destructive-inline text-center')}>
+                        {hasControlPerms ? (
+                            <p>Kick All Players</p>
+                        ) : (
+                            <p>
+                                You do not have permission <br />
+                                to control the server.
+                            </p>
+                        )}
+                    </TooltipContent>
+                </Tooltip>
+                <Tooltip>
+                    <TooltipTrigger asChild>
+                        <button
+                            onClick={handleAnnounce}
+                            className={controlButtonsVariants()}
+                            disabled={!hasAnnouncementPerm || !processInstantiated}
+                        >
+                            <MegaphoneIcon className='h-5' />
+                        </button>
+                    </TooltipTrigger>
+                    <TooltipContent className={cn(!hasAnnouncementPerm && 'text-destructive-inline text-center')}>
+                        {hasAnnouncementPerm ? (
+                            <p>Send Announcement</p>
+                        ) : (
+                            <p>
+                                You do not have permission <br />
+                                to send an Announcement.
+                            </p>
+                        )}
+                    </TooltipContent>
+                </Tooltip>
+            </div>
+            <div className="flex flex-row justify-between gap-2">
+                <Tooltip>
+                    <TooltipTrigger asChild>
+                        <button
+                            onClick={handleGitSync}
+                            className={controlButtonsVariants()}
+                            disabled={!hasControlPerms}
+                        >
+                            <GitForkIcon className='h-5' />
+                        </button>
+                    </TooltipTrigger>
+                    <TooltipContent className={cn(!hasControlPerms && 'text-destructive-inline text-center')}>
+                        {hasControlPerms ? (
+                            <p>Sync Github</p>
+                        ) : (
+                            <p>
+                                You do not have permission
+                            </p>
+                        )}
+                    </TooltipContent>
+                </Tooltip>
+                <Tooltip>
+                    <TooltipTrigger asChild>
+                        <button
+                            onClick={handleRefreshCache}
+                            className={controlButtonsVariants()}
+                            disabled={!hasControlPerms || processInstantiated}
+                        >
+                            <DatabaseZapIcon className='h-5' />
+                        </button>
+                    </TooltipTrigger>
+                    <TooltipContent className={cn(!hasControlPerms && 'text-destructive-inline text-center')}>
+                        {hasControlPerms ? (
+                            <p>Refresh Cache (Only in PRODUCTION)</p>
+                        ) : (
+                            <p>
+                                You do not have permission
+                            </p>
+                        )}
+                    </TooltipContent>
+                </Tooltip>
+            </div>
+        </>
     );
 }

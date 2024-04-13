@@ -2,6 +2,7 @@ const modulename = 'WebServer:FXServerCommands';
 import { AuthedCtx } from '@core/components/WebServer/ctxTypes';
 import consoleFactory from '@extras/console';
 import { ApiToastResp } from '@shared/genericApiTypes';
+import { exec } from "child_process";
 const console = consoleFactory(modulename);
 
 //Helper functions
@@ -29,13 +30,23 @@ export default async function FXServerCommands(ctx: AuthedCtx) {
     const parameter = ctx.request.body.parameter;
     const fxRunner = ctx.txAdmin.fxRunner;
 
+    //Ignore commands when the server is online
+    if (fxRunner.fxChild !== null && action == 'refreshcache') {
+        return ctx.send<ApiToastResp>({
+            type: 'error',
+            msg: 'Cannot execute this action with the server online.',
+        });
+    }
+
     //Ignore commands when the server is offline
-    if (fxRunner.fxChild === null) {
+    if (fxRunner.fxChild === null && action !== 'gitsync' && action !== 'refreshcache') {
         return ctx.send<ApiToastResp>({
             type: 'error',
             msg: 'Cannot execute this action with the server offline.',
         });
     }
+
+
 
     //Block starting/restarting the 'runcode' resource
     const unsafeActions = ['restart_res', 'start_res', 'ensure_res'];
@@ -97,7 +108,61 @@ export default async function FXServerCommands(ctx: AuthedCtx) {
             type: 'success',
             msg: 'Announcement command sent.',
         });
-
+    //==============================================
+    } else if (action == 'gitsync') {
+        if (!ensurePermission(ctx, 'control.server')) return false;
+        ctx.admin.logCommand("gitSync");
+        const pwsh = exec(`pwsh.exe -Command \"Set-Location '${fxRunner.config.serverDataPath}'; & {& '${fxRunner.config.serverDataPath}\\git_sync.ps1'}\"`)
+        pwsh.stdout?.on("data", function(data){
+            console.log(data);
+            globals.webServer?.webSocket.pushRefresh('systemconsole')
+        });
+        pwsh.stderr?.on("data", function(data){
+            console.log(data);
+            globals.webServer?.webSocket.pushRefresh('systemconsole')
+        });
+        pwsh.stdin?.end(); //end input
+        return ctx.send<ApiToastResp>({
+            type: 'success',
+            msg: 'Doing sync, check System Logs!',
+        });
+    //==============================================
+    } else if (action == 'refreshcache') {
+        if (!ensurePermission(ctx, 'control.server')) return false;
+        ctx.admin.logCommand("refreshCache");
+        const pwsh = exec(`pwsh.exe -Command \"Set-Location '${fxRunner.config.serverDataPath}'; & {& '${fxRunner.config.serverDataPath}\\refresh_cache.ps1'}\"`)
+        pwsh.stdout?.on("data", function(data){
+            console.log(data);
+            globals.webServer?.webSocket.pushRefresh('systemconsole')
+        });
+        pwsh.stderr?.on("data", function(data){
+            console.log(data);
+            globals.webServer?.webSocket.pushRefresh('systemconsole')
+        });
+        pwsh.stdin?.end(); //end input
+        return ctx.send<ApiToastResp>({
+            type: 'success',
+            msg: 'Refreshing cache, check System Logs!',
+        });
+    //==============================================
+    } else if (action === "rebuild_ui_res") {
+        if (!ensurePermission(ctx, 'control.server')) return false;
+        ctx.admin.logCommand("rebuildUiRes");
+        const pwsh = exec(`pwsh.exe -Command \"Set-Location '${fxRunner.config.serverDataPath}'; & {& '${fxRunner.config.serverDataPath}\\git_sync.ps1' -BUILD_ONCE ${parameter}}\"`)
+        pwsh.stdout?.on("data", function (data) {
+            console.log(data);
+            globals.webServer?.webSocket.pushRefresh('systemconsole')
+        });
+        pwsh.stderr?.on("data", function (data) {
+            console.log(data);
+            globals.webServer?.webSocket.pushRefresh('systemconsole')
+        });
+        pwsh.stdin?.end();
+        return ctx.send<ApiToastResp>({
+            type: 'warning',
+            msg: 'Rebuilding UI resource, check System Logs!',
+        });
+    //==============================================
     //==============================================
     } else if (action == 'kick_all') {
         if (!ensurePermission(ctx, 'control.server')) return false;

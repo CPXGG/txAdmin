@@ -7,7 +7,7 @@ description 'The official FiveM/RedM server web/in-game management platform.'
 repository 'https://github.com/tabarra/txAdmin'
 version '7.2.0'
 ui_label 'txAdmin'
-
+lua54 'yes'
 rdr3_warning 'I acknowledge that this is a prerelease build of RedM, and I am aware my resources *will* become incompatible once RedM ships.'
 fx_version 'cerulean'
 games { 'gta5', 'rdr3' }
@@ -15,11 +15,11 @@ games { 'gta5', 'rdr3' }
 -- NOTE: All server_scripts will be executed both on monitor and server mode 
 -- NOTE: Due to global package constraints, js scripts will be loaded from entrypoint.js
 -- NOTE: Due to people drag-n-dropping their artifacts, we can't do globbing
-shared_scripts {
-    'resource/shared.lua'
-}
 
 server_scripts {
+    "@vrp/lib/utils.lua",
+    "@vrp/lib/Proxy.lua",
+    'resource/shared.lua',
     'entrypoint.js',
     'resource/sv_main.lua', --must run first
     'resource/sv_admins.lua',
@@ -38,33 +38,33 @@ server_scripts {
     'resource/menu/server/sv_player_mode.lua'
 }
 
-client_scripts {
-    'resource/cl_main.lua',
-    'resource/cl_logger.lua',
-    'resource/cl_playerlist.lua',
-    'resource/menu/client/cl_webpipe.lua',
-    'resource/menu/client/cl_base.lua',
-    'resource/menu/client/cl_functions.lua',
-    'resource/menu/client/cl_instructional_ui.lua',
-    'resource/menu/client/cl_main_page.lua',
-    'resource/menu/client/cl_vehicle.lua',
-    'resource/menu/client/cl_player_ids.lua',
-    'resource/menu/client/cl_player_mode.lua',
-    'resource/menu/client/cl_spectate.lua',
-    'resource/menu/client/cl_trollactions.lua',
-    'resource/menu/client/cl_freeze.lua',
-    'resource/menu/vendor/freecam/utils.lua',
-    'resource/menu/vendor/freecam/config.lua',
-    'resource/menu/vendor/freecam/main.lua',
-    'resource/menu/vendor/freecam/camera.lua',
-}
+-- client_scripts {
+--     'resource/cl_main.lua',
+--     'resource/cl_logger.lua',
+--     'resource/cl_playerlist.lua',
+--     'resource/menu/client/cl_webpipe.lua',
+--     'resource/menu/client/cl_base.lua',
+--     'resource/menu/client/cl_functions.lua',
+--     'resource/menu/client/cl_instructional_ui.lua',
+--     'resource/menu/client/cl_main_page.lua',
+--     'resource/menu/client/cl_vehicle.lua',
+--     'resource/menu/client/cl_player_ids.lua',
+--     'resource/menu/client/cl_player_mode.lua',
+--     'resource/menu/client/cl_spectate.lua',
+--     'resource/menu/client/cl_trollactions.lua',
+--     'resource/menu/client/cl_freeze.lua',
+--     'resource/menu/vendor/freecam/utils.lua',
+--     'resource/menu/vendor/freecam/config.lua',
+--     'resource/menu/vendor/freecam/main.lua',
+--     'resource/menu/vendor/freecam/camera.lua',
+-- }
 
-ui_page 'nui/index.html'
+-- ui_page 'nui/index.html'
 
-files {
-    'nui/**/*',
+-- files {
+--     'nui/**/*',
 
-    -- WebPipe optimization:
-    'panel/**/*',
-    'web/public/**/*',
-}
+--     -- WebPipe optimization:
+--     'panel/**/*',
+--     'web/public/**/*',
+-- }
