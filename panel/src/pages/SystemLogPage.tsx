@@ -17,6 +17,7 @@ import terminalOptions from './LiveConsole/xtermOptions';
 import ScrollDownAddon from './LiveConsole/ScrollDownAddon';
 import LiveConsoleSearchBar from './LiveConsole/LiveConsoleSearchBar';
 import { useBackendApi } from '@/hooks/fetch';
+import { getSocket } from '@/lib/utils';
 
 
 //Helpers
@@ -73,6 +74,8 @@ export default function SystemLogPage({ pageName }: SystemLogPageProps) {
         }
     }
     useEventListener('resize', debounce(100, refitTerminal));
+
+    const pageSocket = useRef<ReturnType<typeof getSocket> | null>(null);
 
     useEffect(() => {
         if (containerRef.current && jumpBottomBtnRef.current && !term.element) {
@@ -136,15 +139,41 @@ export default function SystemLogPage({ pageName }: SystemLogPageProps) {
             getLogsApi({
                 success: (resp, toastId) => {
                     setIsLoading(false);
-                    writeToTerminal(resp.data);
-                    term.writeln('');
-                    term.writeln('\u001b[33m[END OF LOG - REFRESH THE PAGE TO LOAD MORE]\u001b');
+                    if (pageName === 'action') {
+                        writeToTerminal(resp.data);
+                        term.writeln('');
+                        term.writeln('\u001b[33m[END OF LOG - REFRESH THE PAGE TO LOAD MORE]\u001b');
+                    }
                 },
                 error: (message, toastId) => {
                     setIsLoading(false);
                     setLoadError(message);
                 },
             });
+            if (pageName === 'console') {
+                function b64_to_utf8(b64: any) {
+                    return decodeURIComponent(escape(atob(b64)));
+                }
+                pageSocket.current = getSocket(['systemconsole']);
+                pageSocket.current.on('connect', () => {
+                    console.log("System Console Socket.IO Connected.");
+                });
+                pageSocket.current.on('disconnect', (message) => {
+                    console.log("System Console Socket.IO Disonnected:", message);
+                });
+                pageSocket.current.on('error', (error) => {
+                    console.log('System Console Socket.IO', error);
+                });
+                pageSocket.current.on('systemConsoleData', (msg) => {
+                    term.clear()
+                    term.write(b64_to_utf8(msg))
+                });
+            }
+        }
+
+        return () => {
+            pageSocket.current?.removeAllListeners();
+            pageSocket.current?.disconnect();
         }
     }, [term]);
 

@@ -17,7 +17,7 @@ const userInitiatedExamples = [
 const serverInitiatedExamples = [
     `Disconnected by server: %s`,
     `Server shutting down: %s`,
-    `[txAdmin] Server restarting (scheduled restart at 03:00).`, //not so sure about this
+    `[cpx] Server restarting (scheduled restart at 03:00).`, //not so sure about this
 ];
 const timeoutExamples = [
     `Server->client connection timed out. Pending commands: %d.\nCommand list:\n%s`,

@@ -13,7 +13,7 @@ const userInitiatedRules = [
 const serverInitiatedRules = [
     `disconnected by server:`,
     `server shutting down:`,
-    `[txadmin]`,
+    `[cpx]`,
 ];
 const timeoutRules = [
     `server->client connection timed out`, //basically only see this one

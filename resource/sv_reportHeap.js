@@ -11,6 +11,6 @@ setInterval(() => {
         }));
     } catch (error) {
         const msg = `Error reporting heap: ${error.message}`;
-        console.log(`^5[txAdmin]^1${msg}^0`);
+        console.log(`^5[cpx]^1${msg}^0`);
     }
 }, 15_000);
