@@ -13,6 +13,7 @@ import { LogoutReasonHash } from '@/pages/auth/Login';
 import { mutate } from 'swr';
 import { fetchWithTimeout } from './fetch';
 import consts from '@shared/consts';
+import { devPermissionOverrideAtom } from '@/dev/permissionDebugState';
 
 
 /**
@@ -56,17 +57,21 @@ export const useSetAuthData = () => {
 //Perms logic from core/modules/WebServer/authLogic.ts
 export const useAdminPerms = () => {
     const permsData = useAtomValue(adminPermissionsAtom);
+    const devOverride = useAtomValue(devPermissionOverrideAtom);
+    const useDevOverride = import.meta.env.DEV && devOverride.enabled;
 
     const hasPerm = (perm: string) => {
-        if (!permsData) return false;
+        if (!permsData && !useDevOverride) return false;
         try {
             if (perm === 'master') {
-                return permsData.isMaster;
+                return useDevOverride ? devOverride.isMaster : permsData!.isMaster;
             }
+            const isMaster = useDevOverride ? devOverride.isMaster : permsData!.isMaster;
+            const permissions = useDevOverride ? devOverride.permissions : permsData!.permissions;
             return (
-                permsData.isMaster
-                || permsData.permissions.includes('all_permissions')
-                || permsData.permissions.includes(perm)
+                isMaster
+                || permissions.includes('all_permissions')
+                || permissions.includes(perm)
             );
         } catch (error) {
             console.error(`Error validating permission '${perm}' denied.`);
@@ -76,7 +81,7 @@ export const useAdminPerms = () => {
 
     return {
         hasPerm,
-        isMaster: permsData ? permsData.isMaster : false,
+        isMaster: useDevOverride ? devOverride.isMaster : (permsData ? permsData.isMaster : false),
         //NOTE: this one really shouldn't be used
         // permissions: permsData ? permsData.permissions : [], 
     };
