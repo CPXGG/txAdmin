@@ -16,8 +16,9 @@ import { useAtomValue } from "jotai";
 import { serverNameAtom } from "@/hooks/status";
 import { playerCountAtom } from "@/hooks/playerlist";
 import { useAccountModal } from "@/hooks/dialogs";
-import { LogoSquareGreen, LogoFullSquareGreen } from "@/components/Logos";
 import { NavLink } from "@/components/MainPageLink";
+import CpxxpBrand from '@/branding/CpxxpBrand';
+import { ExtensionSlot } from '@/extensions/registry';
 
 
 function ServerTitle() {
@@ -45,10 +46,7 @@ const navButtonClasses = `h-11 w-11 sm:h-10 sm:min-w-max sm:px-2 lg:px-3
     flex justify-center items-center gap-2
     transition-all ring-offset-background 
     focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
-    rounded-md text-sm border
-   
-    bg-zinc-100 hover:bg-zinc-200 border-zinc-200
-    dark:bg-zinc-900 dark:hover:bg-zinc-800 dark:border-zinc-800
+    rounded-md text-sm border bg-card/70 hover:bg-secondary border-border backdrop-blur-md
 `;
 
 function ButtonToggleServerSheet({ className }: NavButtonProps) {
@@ -173,18 +171,17 @@ function AuthedHeaderFragment() {
 
 export function Header() {
     return (
-        <header className="sticky top-0 z-20 flex flex-col items-center justify-center
-            border-b bg-card text-card-foreground border-card-background shadow-lg md:shadow-sm">
+        <header className="cpx-glass sticky top-0 z-20 flex flex-col items-center justify-center
+            border-b text-card-foreground">
             <div className="h-14 lg:px-3 px-2 w-full max-w-[1920px] flex flex-row justify-between transition-all">
                 <div className="flex flex-row items-center flex-grow gap-5 mr-5">
                     <div className="w-sidebar hidden xl:flex justify-center">
                         <NavLink href="/">
-                            {/* <h2 className="text-4xl font-bold text-pink-500 saturate-150">Option XYZ</h2> */}
-                            <LogoFullSquareGreen className="h-9 hover:scale-105 hover:brightness-110" />
+                            <CpxxpBrand className="transition-transform hover:scale-[1.02]" />
                         </NavLink>
                     </div>
                     <NavLink href="/" className="hidden sm:max-xl:block">
-                        <LogoSquareGreen className="h-8 w-8 lg:h-10 lg:w-10 hover:scale-105 hover:brightness-110" />
+                        <CpxxpBrand compact className="transition-transform hover:scale-105" />
                     </NavLink>
 
                     <div className="lg:hidden">
@@ -196,6 +193,7 @@ export function Header() {
                 </div>
 
                 <div className="flex flex-row items-center gap-2 sm:gap-3">
+                    <ExtensionSlot name="header.actions" />
                     <ButtonToggleServerSheet className="lg:hidden" />
                     <ButtonToggleGlobalMenu className="lg:hidden" />
                     <ButtonTogglePlayerlistSheet className="xl:hidden" />

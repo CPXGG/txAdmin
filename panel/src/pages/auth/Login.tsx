@@ -22,12 +22,12 @@ function HeaderNoServer() {
                 {/* Unconfigured Server */}
                 {/* Server Not Configured */}
                 {/* Server Not Yet Configured */}
-                Welcome to txAdmin!
+                CPXXP Control
             </div>
             <div className="text-sm xs:text-base font-normal tracking-wide text-muted-foreground">
                 {/* please login to set it up */}
                 {/* login to configure it */}
-                please login to continue
+                acesso administrativo seguro
             </div>
         </div>
     )
@@ -49,7 +49,7 @@ function HeaderServerInfo() {
                 {server.name}
             </div>
             <div className="text-sm xs:text-base text-muted-foreground">
-                Login to continue
+                acesso administrativo
             </div>
         </div>
     </>)

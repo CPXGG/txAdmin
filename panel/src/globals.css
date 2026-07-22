@@ -1,6 +1,14 @@
 @import "@fontsource-variable/inter";
 @import "@fontsource-variable/jetbrains-mono";
 
+@font-face {
+    font-family: "Eurostile Extended";
+    src: url("/fonts/EurostileRoundExtended-Regular.woff2") format("woff2");
+    font-display: swap;
+    font-style: normal;
+    font-weight: 400 900;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -34,41 +42,41 @@
 
     :root {
         /* Default background color of <body />...etc */
-        --background: 224 33.3% 97.1%;
-        --foreground: 224 10.2% 9.6%;
+        --background: 248 33% 97%;
+        --foreground: 248 28% 12%;
 
         /* Background color for <Card /> */
-        --card: 224 16.1% 95%;
-        --card-foreground: 224 10.2% 9.6%;
+        --card: 0 0% 100% / 0.78;
+        --card-foreground: 248 28% 12%;
 
         /* Background color for popovers such as <DropdownMenu />, <HoverCard />, <Popover /> */
-        --popover: 224 33.3% 97.1%;
-        --popover-foreground: 224 10.2% 9.6%;
+        --popover: 248 33% 98%;
+        --popover-foreground: 248 28% 12%;
 
         /* Primary colors for <Button /> */
-        --primary: 224 10.2% 9.6%;
-        --primary-foreground: 224 10% 96.1%;
+        --primary: 345 92% 50%;
+        --primary-foreground: 0 0% 100%;
 
         /* Secondary colors for <Button /> */
-        --secondary: 224 7% 86.1%;
-        --secondary-foreground: 224 10.2% 9.6%;
+        --secondary: 248 32% 88%;
+        --secondary-foreground: 248 34% 24%;
 
         /* Muted backgrounds such as <TabsList />, <Skeleton /> and <Switch /> */
-        --muted: 224 5.4% 85.5%;
-        --muted-foreground: 224 4.7% 25.1%;
+        --muted: 248 18% 91%;
+        --muted-foreground: 248 12% 40%;
 
         /* Used for accents such as hover effects on <DropdownMenuItem>, <SelectItem>...etc */
         --accent: 341 92.3% 49%;
         --accent-foreground: 0 0% 100%;
 
         /* Default border color */
-        --border: 224 3.2% 81.4%;
+        --border: 248 22% 76% / 0.6;
 
         /* Border color for inputs such as <Input />, <Select />, <Textarea /> */
-        --input: 224 7% 86.1%;
+        --input: 248 20% 82%;
 
         /* Used for focus ring */
-        --ring: 224 10.2% 9.6%;
+        --ring: 345 92% 50%;
 
         /* Semantic colors used for button variants and maybe more */
         /* hint and inline generated with the 50 and 600 (respectivelly) variants via https://uicolors.app/create*/
@@ -90,9 +98,18 @@
         --info-inline: 194.8 83% 37%;
 
         /* Other stuff - common for dark an light themes */
-        --font-sans: "Inter Variable";
+        --font-sans: "Eurostile Extended";
         --font-mono: "JetBrains Mono Variable";
-        --radius: 0.5rem;
+        --radius: 0.7rem;
+
+        --cpx-red: #f50a46;
+        --cpx-red-dark: #710b25;
+        --cpx-purple: #302a52;
+        --cpx-purple-bright: #5f00e6;
+        --cpx-cyan: #1cabca;
+        --cpx-surface: rgba(255, 255, 255, 0.72);
+        --cpx-surface-strong: rgba(255, 255, 255, 0.92);
+        --cpx-grid: rgba(48, 42, 82, 0.07);
     }
 
     .dark-og {
@@ -123,41 +140,45 @@
 
     .dark {
         /* Default background color of <body />...etc */
-        --background: 224 5.7% 10.4%;
-        --foreground: 224 6.7% 97.1%;
+        --background: 248 25% 6%;
+        --foreground: 248 20% 96%;
 
         /* Background color for <Card /> */
-        --card: 224 5.6% 14.1%;
-        --card-foreground: 224 6.7% 97.1%;
+        --card: 248 24% 11% / 0.86;
+        --card-foreground: 248 20% 96%;
 
         /* Background color for popovers such as <DropdownMenu />, <HoverCard />, <Popover /> */
-        --popover: 224 5.7% 10.4%;
-        --popover-foreground: 224 6.7% 97.1%;
+        --popover: 248 25% 9%;
+        --popover-foreground: 248 20% 96%;
 
         /* Primary colors for <Button /> */
-        --primary: 224 6.7% 97.1%;
-        --primary-foreground: 224 7.1% 11%;
+        --primary: 345 92% 50%;
+        --primary-foreground: 0 0% 100%;
 
         /* Secondary colors for <Button /> */
-        --secondary: 224 5.3% 26.1%;
-        --secondary-foreground: 224 6.7% 97.1%;
+        --secondary: 248 32% 24%;
+        --secondary-foreground: 248 20% 96%;
 
         /* Muted backgrounds such as <TabsList />, <Skeleton /> and <Switch /> */
-        --muted: 224 5% 15.7%;
-        --muted-foreground: 224 4.9% 72%;
+        --muted: 248 18% 15%;
+        --muted-foreground: 248 12% 69%;
 
         /* Used for accents such as hover effects on <DropdownMenuItem>, <SelectItem>...etc */
         --accent: 341 92.3% 49%;
         --accent-foreground: 0 0% 100%;
 
         /* Default border color */
-        --border: 224 5.6% 21.2%;
+        --border: 0 0% 100% / 0.09;
 
         /* Border color for inputs such as <Input />, <Select />, <Textarea /> */
-        --input: 224 5.3% 26.1%;
+        --input: 248 21% 23%;
 
         /* Used for focus ring */
-        --ring: 224 6.7% 97.1%;
+        --ring: 345 92% 50%;
+
+        --cpx-surface: rgba(21, 19, 33, 0.82);
+        --cpx-surface-strong: rgba(14, 13, 23, 0.96);
+        --cpx-grid: rgba(255, 255, 255, 0.035);
 
         /* Semantic colors used for button variants and maybe more */
         /* hint generated with the 950 variant via https://uicolors.app/create*/
@@ -206,6 +227,14 @@
     }
     body {
         @apply bg-background text-foreground antialiased;
+        min-height: 100vh;
+        background-image:
+            radial-gradient(circle at 8% 0%, rgba(95, 0, 230, 0.16), transparent 34rem),
+            radial-gradient(circle at 92% 100%, rgba(245, 10, 70, 0.12), transparent 38rem),
+            linear-gradient(var(--cpx-grid) 1px, transparent 1px),
+            linear-gradient(90deg, var(--cpx-grid) 1px, transparent 1px);
+        background-attachment: fixed;
+        background-size: auto, auto, 32px 32px, 32px 32px;
     }
 
     /* TODO: remove once this issue is fixed: https://github.com/radix-ui/primitives/issues/3251 */
@@ -217,6 +246,24 @@
 
     .tx-sidebar {
         @apply self-start sticky shrink-0 w-sidebar z-0 top-contentoffset;
+    }
+
+    .cpx-glass {
+        background: var(--cpx-surface);
+        border-color: hsl(var(--border));
+        box-shadow: 0 18px 55px rgba(5, 4, 12, 0.18);
+        backdrop-filter: blur(18px);
+    }
+
+    .cpx-shell {
+        isolation: isolate;
+    }
+
+    .cpx-eyebrow {
+        color: var(--cpx-red);
+        font-size: 0.65rem;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
     }
 
     /* Since this is going to be repeated a lot, better to externalize the style */
@@ -260,20 +307,17 @@
     }
 
     .pattern-dots {
-        background-image: radial-gradient(circle, #D4D4D8 1px, transparent 1px);
-        background-size: 20px 20px;
+        background-image:
+            radial-gradient(circle at 50% 30%, rgba(95, 0, 230, 0.14), transparent 28rem),
+            linear-gradient(var(--cpx-grid) 1px, transparent 1px),
+            linear-gradient(90deg, var(--cpx-grid) 1px, transparent 1px);
+        background-size: auto, 28px 28px, 28px 28px;
         background-position: center;
-        transition: background-size 0.5s ease;
     }
     /* .pattern-dots:hover {
         background-size: 21px 21px;
     } */
-    .dark .pattern-dots {
-        background-image: radial-gradient(circle, #27272A 1px, transparent 1px);
-        background-size: 20px 20px;
-        background-position: center;
-        transition: background-size 0.5s ease;
-    }
+    .dark .pattern-dots { background-color: rgba(5, 4, 12, 0.28); }
     /* .dark .pattern-dots:hover {
         background-size: 21px 21px;
     } */

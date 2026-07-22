@@ -1,4 +1,8 @@
 #!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
+set -eu
 
-npx --no-install commitlint --edit ""
+if [ "${HUSKY:-}" = "0" ]; then
+    exit 0
+fi
+
+exec node "$(dirname "$0")/../node_modules/@commitlint/cli/cli.js" --edit "$1"

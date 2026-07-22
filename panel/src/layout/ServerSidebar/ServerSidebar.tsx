@@ -1,10 +1,9 @@
 import { cn } from '@/lib/utils';
-import { handleExternalLinkClick } from "@/lib/navigation";
 import ServerMenu from './ServerMenu';
 import ServerControls from './ServerControls';
 import ServerStatus from './ServerStatus';
 import ServerSchedule from './ServerSchedule';
-import DynamicAdvert from '@/components/DynamicAdvert';
+import { ExtensionSlot } from '@/extensions/registry';
 
 
 type ServerSidebarProps = {
@@ -19,13 +18,13 @@ export function ServerSidebar({ isSheet }: ServerSidebarProps) {
             )}
         >
             <div className={cn(
-                !isSheet && 'rounded-xl border bg-card text-card-foreground shadow-sm p-4',
+                !isSheet && 'cpx-glass rounded-xl border text-card-foreground p-4',
             )}>
                 <ServerMenu />
             </div>
             <hr className={isSheet ? 'block' : 'hidden'} />
             <div className={cn(
-                !isSheet && 'rounded-xl border bg-card text-card-foreground shadow-sm p-4',
+                !isSheet && 'cpx-glass rounded-xl border text-card-foreground p-4',
                 'flex flex-col gap-4'
             )}>
                 {/* <h2 className="text-lg font-semibold tracking-tight overflow-hidden text-ellipsis">
@@ -37,7 +36,7 @@ export function ServerSidebar({ isSheet }: ServerSidebarProps) {
             </div>
             <hr className={isSheet ? 'block' : 'hidden'} />
 
-            <DynamicAdvert placement='sidebar' />
+            <ExtensionSlot name="sidebar.bottom" />
 
             {window.txConsts.isWebInterface ? (
                 <div className='flex flex-col items-center justify-center gap-1 text-sm font-light opacity-85 hover:opacity-100'>

@@ -4,11 +4,10 @@ import CfxreCallback from "../pages/auth/CfxreCallback";
 import AddMasterPin from "../pages/auth/AddMasterPin";
 import AddMasterCallback from "../pages/auth/AddMasterCallback";
 import { Card } from "../components/ui/card";
-import { LogoFullSquareGreen } from "@/components/Logos";
 import { useThemedImage } from "@/hooks/theme";
 import { handleExternalLinkClick } from "@/lib/navigation";
 import { AuthError } from "@/pages/auth/errors";
-import DynamicAdvert from "@/components/DynamicAdvert";
+import CpxxpBrand from '@/branding/CpxxpBrand';
 
 function AuthContentWrapper({ children }: { children: React.ReactNode }) {
     return (
@@ -22,7 +21,7 @@ function AuthContentWrapper({ children }: { children: React.ReactNode }) {
 export default function AuthShell() {
     const customLogoUrl = useThemedImage(window.txConsts.providerLogo);
     return (
-        <div className="min-h-screen flex items-center justify-center pattern-dots">
+        <div className="min-h-screen flex items-center justify-center pattern-dots px-4">
             <div className="w-full min-w-[20rem] xs:max-w-[25rem] my-4 xs:mx-4">
                 {customLogoUrl ? (
                     <img
@@ -31,10 +30,10 @@ export default function AuthShell() {
                         alt={window.txConsts.providerName}
                     />
                 ) : (
-                    <LogoFullSquareGreen className="w-36 xs:w-52 mx-auto" />
+                    <CpxxpBrand className="w-fit mx-auto scale-110" />
                 )}
 
-                <Card className="min-h-80 mt-4 xs:mt-8 mb-4 flex items-center justify-center bg-card/40 rounded-none xs:rounded-lg">
+                <Card className="cpx-glass min-h-80 mt-6 xs:mt-8 mb-4 flex items-center justify-center rounded-xl overflow-hidden">
                     <Switch>
                         <Route path="/login">
                             <Login />
@@ -68,7 +67,6 @@ export default function AuthShell() {
                 </Card>
 
                 <div className="mx-auto flex flex-wrap gap-4 justify-center mb-2">
-                    <DynamicAdvert placement='login' />
                     <a
                         href='https://discord.gg/uAmsGa2'
                         onClick={handleExternalLinkClick}

@@ -24,7 +24,7 @@ export default function Iframe({ legacyUrl }: Props) {
             ref={iframeRef}
             id="legacyPageIframe" //required for the theme switcher
             src={`./legacy/${legacyUrl}${searchParams}${hashParams}`}
-            className="w-full"
+            className="h-contentvh min-h-contentvh w-full"
         ></iframe>
     );
 }

@@ -22,6 +22,7 @@ import BreakpointDebugger from './BreakpointDebugger';
 import ActionModal from './ActionModal/ActionModal';
 import { useEffect } from 'react';
 import { actionModalUrlParam, useOpenActionModal } from '@/hooks/actionModal';
+import { ExtensionSlot } from '@/extensions/registry';
 
 
 export default function MainShell() {
@@ -79,10 +80,12 @@ export default function MainShell() {
     return <>
         <TooltipProvider delayDuration={300} disableHoverableContent={true}>
             <Header />
-            <div className="md:px-3 min-h-full pt-[var(--page-pt)] pb-[var(--page-pb)] w-full max-w-[1920px] mx-auto flex flex-row gap-4">
+            <div className="cpx-shell md:px-3 min-h-full pt-[var(--page-pt)] pb-[var(--page-pb)] w-full max-w-[1920px] mx-auto flex flex-row gap-4">
                 <ServerSidebar />
-                <main className="flex flex-1 min-h-contentvh min-w-[360px]">
+                <main className="flex flex-1 min-h-contentvh min-w-[360px] flex-col">
+                    <ExtensionSlot name="content.before" />
                     <MainRouter />
+                    <ExtensionSlot name="content.after" />
                 </main>
                 {window.txConsts.isWebInterface && <PlayerlistSidebar />}
             </div>

@@ -83,7 +83,7 @@ export function MenuNavLink({ href, children, className, disabled }: MenuNavProp
                 isActive={isActive}
                 className={cn(
                     buttonVariants({ variant: isActive ? 'secondary' : 'ghost' }),
-                    'w-full justify-start py-1',
+                    'w-full justify-start py-1 border border-transparent',
                     className,
                 )}
             >

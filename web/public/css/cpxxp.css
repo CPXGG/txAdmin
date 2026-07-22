@@ -1,0 +1,88 @@
+@font-face {
+    font-family: "Eurostile Extended";
+    src: url("../fonts/EurostileRoundExtended-Regular.woff2") format("woff2");
+    font-display: swap;
+}
+
+:root {
+    --primary: #f50a46 !important;
+    --secondary: #302a52 !important;
+    --danger: #f50a46 !important;
+}
+
+body,
+button,
+input,
+select,
+textarea {
+    font-family: "Eurostile Extended", Arial, sans-serif !important;
+}
+
+body.theme--dark,
+body.theme--dark .c-app,
+body.theme--dark .c-main {
+    color: #f7f5fb;
+    background-color: transparent;
+}
+
+body.theme--dark .card,
+body.theme--dark .card .card-header,
+body.theme--dark .card .card-body,
+body.theme--dark .card .card-footer,
+body.theme--dark .modal-content,
+body.theme--dark .modal-body {
+    background-color: rgba(21, 19, 33, 0.88);
+    border-color: rgba(255, 255, 255, 0.09) !important;
+}
+
+body.theme--dark .form-control,
+body.theme--dark .input-group-text,
+body.theme--dark .dropdown-menu,
+body.theme--dark .dropdown-menu .dropdown-item {
+    color: #f7f5fb;
+    background-color: #1d1a2c;
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+body.theme--dark a:not(.btn):not(.c-sidebar-nav-link):not(.alert-link),
+body.theme--dark .text-primary,
+body.theme--dark .table strong {
+    color: #f50a46 !important;
+}
+
+body.theme--dark .btn.btn-primary,
+body.theme--dark .nav-pills .nav-link.active,
+body.theme--dark .nav-tabs .nav-link.active,
+body.theme--dark .progress-bar {
+    color: #fff !important;
+    background: #f50a46 !important;
+    border-color: #f50a46 !important;
+}
+
+body.theme--dark .card .nav-tabs .nav-link.active,
+body.theme--dark .card .nav-tabs .nav-item.show .nav-link {
+    color: #fff !important;
+}
+
+body.theme--dark .btn.btn-outline-primary {
+    color: #f50a46;
+    border-color: #f50a46;
+}
+
+body.theme--dark .btn.btn-outline-primary:hover,
+body.theme--dark .bigbutton:hover {
+    color: #fff;
+    background-color: #f50a46;
+}
+
+body.theme--dark .form-control:focus {
+    border-color: #f50a46;
+    box-shadow: 0 0 0 0.2rem rgba(245, 10, 70, 0.15);
+}
+
+body.theme--dark .table .thead-light th,
+body.theme--dark .plheader,
+body.theme--dark .logEntry:hover,
+body.theme--dark .playerlist .player:hover {
+    background-color: #302a52 !important;
+}
