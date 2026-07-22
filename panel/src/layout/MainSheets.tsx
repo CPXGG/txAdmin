@@ -3,7 +3,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sh
 import { ServerSidebar } from "./ServerSidebar/ServerSidebar";
 import { useGlobalMenuSheet, usePlayerlistSheet, useServerSheet } from "@/hooks/sheets";
 import { MenuNavLink, NavLink } from "@/components/MainPageLink";
-import { ClipboardCheckIcon, DoorOpenIcon, ListIcon, PieChartIcon, ScrollIcon, SettingsIcon, UserSquare2Icon, UsersIcon, ZapIcon } from 'lucide-react';
+import { DoorOpenIcon, ListIcon, PieChartIcon, RefreshCcwIcon, ScrollIcon, SettingsIcon, UserSquare2Icon, UsersIcon, ZapIcon } from 'lucide-react';
 import { PlayerlistSidebar } from "./PlayerlistSidebar/PlayerlistSidebar";
 import { useAdminPerms } from "@/hooks/auth";
 import { LogoFullSquareGreen } from "@/components/Logos";
@@ -43,8 +43,8 @@ export function GlobalMenuSheet() {
                             <MenuNavLink href="/insights/player-drops">
                                 <DoorOpenIcon className="mr-2 h-4 w-4" />Player Drops
                             </MenuNavLink>
-                            <MenuNavLink href="/allowlist">
-                                <ClipboardCheckIcon className="mr-2 h-4 w-4" />Allowlist
+                            <MenuNavLink href="/restart" disabled={!hasPerm('control.server')}>
+                                <RefreshCcwIcon className="mr-2 h-4 w-4" />Reinício
                             </MenuNavLink>
                             <MenuNavLink href="/admins" disabled={!hasPerm('manage.admins')}>
                                 <UserSquare2Icon className="mr-2 h-4 w-4" />Admins

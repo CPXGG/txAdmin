@@ -22,6 +22,7 @@ import SettingsPage from "@/pages/Settings/SettingsPage";
 import UnauthorizedPage from "@/pages/UnauthorizedPage";
 import DiagnosticsPage from "@/pages/Diagnostics/DiagnosticsPage";
 import AdvancedPage from "@/pages/AdvancedPage";
+import RestartPage from "@/pages/Restart/RestartPage";
 
 
 type RouteType = {
@@ -49,9 +50,10 @@ const allRoutes: RouteType[] = [
         Page: <PlayerDropsPage />
     },
     {
-        path: '/allowlist',
-        title: 'Allowlist',
-        Page: <Iframe legacyUrl="allowlist" />
+        path: '/restart',
+        title: 'Reinício',
+        permission: 'control.server',
+        Page: <RestartPage />
     },
     {
         path: '/admins',

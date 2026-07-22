@@ -60,9 +60,9 @@ if (window.location.pathname.substring(0, 8) === '/WebPipe') {
     window.history.replaceState(null, '', newUrl);
 }
 
-// FIXME:NEXT:UPDATE - legacy /whitelist URL
-if (window.location.pathname === '/whitelist') {
-    window.history.replaceState(null, '', '/allowlist');
+// CPXXP: the legacy allowlist page was replaced by the restart operations page.
+if (window.location.pathname === '/whitelist' || window.location.pathname === '/allowlist') {
+    window.history.replaceState(null, '', '/restart');
 }
 
 //Rendering auth or main pages depending on if the user is authenticated

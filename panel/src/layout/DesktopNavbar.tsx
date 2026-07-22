@@ -100,8 +100,8 @@ export default function DesktopNavbar() {
                     <HeaderMenuItem href="/insights/player-drops">
                         Player Drops
                     </HeaderMenuItem>
-                    <HeaderMenuItem href="/allowlist">
-                        Allowlist
+                    <HeaderMenuItem href="/restart" disabled={!hasPerm('control.server')}>
+                        Reinício
                     </HeaderMenuItem>
                     <HeaderMenuItem href="/admins" disabled={!hasPerm('manage.admins')}>
                         Admins

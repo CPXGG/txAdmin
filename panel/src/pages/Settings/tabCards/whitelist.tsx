@@ -1,5 +1,4 @@
 import { Input } from "@/components/ui/input"
-import TxAnchor from '@/components/TxAnchor'
 import InlineCode from '@/components/InlineCode'
 import { SettingItem, SettingItemDesc, SettingItemWarningLine } from '../settingsItems'
 import { RadioGroup } from "@/components/ui/radio-group"
@@ -190,7 +189,7 @@ export default function ConfigCardWhitelist({ cardCtx, pageCtx }: SettingsCardPr
                         value="approvedLicense"
                         title="Approved License"
                         desc={(<>
-                            The player <InlineCode>license:</InlineCode> identifier must be allowlisted by a txAdmin administrator. This can be done through the <TxAnchor href="/allowlist">Allowlist page</TxAnchor>, or the <InlineCode>/allowlist</InlineCode> Discord bot command.
+                            The player <InlineCode>license:</InlineCode> identifier must be allowlisted by a txAdmin administrator. In CPXXP, use the <InlineCode>/allowlist</InlineCode> Discord bot command because the legacy Allowlist page is disabled.
                         </>)}
                     />
                     <BigRadioItem

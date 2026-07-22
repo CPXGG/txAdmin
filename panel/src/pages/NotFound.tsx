@@ -13,10 +13,10 @@ export default function NotFound({ params }: Props) {
     const setLocation = useLocation()[1];
     setPageTitle('Not Found');
 
-    // FIXME:NEXT:UPDATE - remove
+    // CPXXP: keep legacy allowlist bookmarks pointed at the replacement page.
     useEffect(() => {
-        if (params['*'] === 'whitelist') {
-            setLocation('/allowlist');
+        if (params['*'] === 'whitelist' || params['*'] === 'allowlist') {
+            setLocation('/restart');
         }
     }, []);
 
